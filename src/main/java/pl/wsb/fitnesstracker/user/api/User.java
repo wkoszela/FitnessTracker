@@ -13,7 +13,7 @@ import java.time.LocalDate;
 @Table(name = "users")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@ToString(exclude = {"trainings", "healthMatrics", "statistics"})
 public class User {
 
     @Id
@@ -21,21 +21,23 @@ public class User {
     @Nullable
     private Long id;
 
+    @Column(name = "firstname", nullable = false)
+    private String firstName;
+
+    @Column(name = "lastname", nullable = false)
+    private String lastName;
+
     @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;
 
     @Column(nullable = false, unique = true)
     private String email;
 
-    public User(
-            final String firstName,
-            final String lastName,
-            final LocalDate birthdate,
-            final String email) {
-
+    public User(String firstName, String lastName, LocalDate birthdate, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.birthdate = birthdate;
         this.email = email;
     }
-
 }
 
