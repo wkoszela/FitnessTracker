@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
-@Table(name = "statistics")
+@Table(name = "Statistics")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
@@ -19,13 +19,10 @@ public class Statistics {
     @Nullable
     private Long id;
 
-    @Column(name = "total_trainings", nullable = false)
     private int totalTrainings;
 
-    @Column(name = "total_distance")
     private double totalDistance;
 
-    @Column(name = "total_calories_burned")
     private int totalCaloriesBurned;
 
     public Statistics(int totalTrainings, double totalDistance, int totalCaloriesBurned) {
