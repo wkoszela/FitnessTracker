@@ -22,11 +22,11 @@ public class User {
 
 
 
-    @Column(nullable = false, unique = true)
+    @Column(name ="firstName", nullable = false, unique = true)
     private String firstName;
 
 
-    @Column(nullable = false, unique = true)
+    @Column(name ="lastName", nullable = false, unique = true)
     private String lastName;
 
     @Column(name = "birthdate", nullable = false)

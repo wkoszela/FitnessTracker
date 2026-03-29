@@ -52,7 +52,7 @@ class DatabaseSchemaTest {
     void usersTableHasExpectedColumns() throws Exception {
         try (Connection conn = dataSource.getConnection()) {
             Set<String> cols = tableColumns(conn, "users");
-            assertThat(cols).contains("id", "email");
+            assertThat(cols).contains("id", "email", "firstName", "lastName", "birthdate");
         }
     }
 
@@ -60,7 +60,7 @@ class DatabaseSchemaTest {
     void healthMetricsTableHasExpectedColumns() throws Exception {
         try (Connection conn = dataSource.getConnection()) {
             Set<String> cols = tableColumns(conn, "health_metrics");
-            assertThat(cols).contains("id", "user_id");
+            assertThat(cols).contains("id", "user_id", "date", "weight", "height", "heartRate");
         }
     }
 
@@ -68,7 +68,7 @@ class DatabaseSchemaTest {
     void statisticsTableHasExpectedColumns() throws Exception {
         try (Connection conn = dataSource.getConnection()) {
             Set<String> cols = tableColumns(conn, "statistics");
-            assertThat(cols).contains("id", "user_id");
+            assertThat(cols).contains("id", "user_id", "totalTrainings", "totalDistance", "totalCaloriesBurned");
         }
     }
 

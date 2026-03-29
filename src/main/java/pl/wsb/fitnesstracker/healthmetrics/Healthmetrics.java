@@ -8,17 +8,15 @@ import java.time.LocalDate;
 
 @Entity
 @Table(name = "Health_Metrics")
-public class healthmetrics {
+public class Healthmetrics {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    /// zmienic na klucz obcy
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user_id;
-
 
     @Column(name = "date", nullable = false)
     private LocalDate date;
