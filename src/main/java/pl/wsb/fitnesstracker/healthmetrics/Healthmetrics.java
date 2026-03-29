@@ -27,7 +27,7 @@ public class Healthmetrics {
     @Column(name = "height", nullable = false)
     private int height; //cm
 
-    @Column(name = "heartRate", nullable = false)
-    private int heartRate; //bpm
+    @Column(name = "heart_rate", nullable = false)
+    private int heart_rate; //bpm
 
 }
