@@ -24,10 +24,8 @@ public class Training {
     @Nullable
     private Long id;
 
-    //@ManyToOne
-   // private Long user_id;
-
-   // private User user;
+    @ManyToOne
+    private User user;
 
     private Date startTime;
 
@@ -46,7 +44,7 @@ public class Training {
             final ActivityType activityType,
             final double distance,
             final double averageSpeed) {
-     //   this.user = user;
+        this.user = user;
         this.startTime = startTime;
         this.endTime = endTime;
         this.activityType = activityType;
