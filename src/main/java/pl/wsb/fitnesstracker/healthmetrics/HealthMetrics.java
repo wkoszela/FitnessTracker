@@ -13,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
+
 public class HealthMetrics {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
