@@ -23,7 +23,7 @@ public class HealthMetrics {
     private Long id;
 
     @ManyToOne
-    private Long user_id;
+    private User user;
 
     private int date;
     private int weight;
@@ -32,12 +32,12 @@ public class HealthMetrics {
 
 
     public HealthMetrics(
-            final Long user,
+            final User user,
             final int date,
             final int weight,
             final int height,
             final int heartRate) {
-        this.user_id = user;
+        this.user = user;
         this.date = date;
         this.weight = weight;
         this.height = height;
