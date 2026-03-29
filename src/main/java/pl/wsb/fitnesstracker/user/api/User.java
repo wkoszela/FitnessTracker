@@ -18,7 +18,7 @@ public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Nullable
+//    @Nullable
     private Long id;
 
     @Column(name = "birthdate", nullable = false)
