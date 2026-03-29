@@ -35,15 +35,6 @@ public class User {
     @Column(nullable = false, unique = true)
     private String email;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<Training> trainings;
-
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    private Statistics statistics;
-
-    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    private List<HealthMetrics> healthMetrics;
-
     public User(
             String firstName,
             String lastName,
