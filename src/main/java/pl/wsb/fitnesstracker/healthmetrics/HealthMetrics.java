@@ -22,7 +22,8 @@ public class HealthMetrics {
     @Nullable
     private Long id;
 
-    private int user_id;
+    @ManyToOne
+    private Long user_id;
 
     private int date;
     private int weight;
@@ -31,7 +32,7 @@ public class HealthMetrics {
 
 
     public HealthMetrics(
-            final int user,
+            final Long user,
             final int date,
             final int weight,
             final int height,

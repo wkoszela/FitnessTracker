@@ -19,6 +19,9 @@ public class Statistics {
     @Nullable
     private Long id;
 
+    @OneToOne
+    private Long user_id;
+
     private int totalTrainings;
 
     private double totalDistance;

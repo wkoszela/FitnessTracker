@@ -24,6 +24,8 @@ public class Training {
     private Long id;
 
     @ManyToOne
+    private Long user_id;
+
     private User user;
 
     private Date startTime;
