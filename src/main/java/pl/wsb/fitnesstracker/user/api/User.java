@@ -22,11 +22,11 @@ public class User {
 
 
 
-    @Column(name ="firstName", nullable = false, unique = true)
+    @Column(name ="firstName", nullable = false)
     private String firstName;
 
 
-    @Column(name ="lastName", nullable = false, unique = true)
+    @Column(name ="lastName", nullable = false)
     private String lastName;
 
     @Column(name = "birthdate", nullable = false)
@@ -43,6 +43,8 @@ public class User {
 
         this.birthdate = birthdate;
         this.email = email;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 
 }
