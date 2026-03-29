@@ -1,6 +1,7 @@
 package pl.wsb.fitnesstracker.healthmetrics;
 
 import jakarta.persistence.*;
+import pl.wsb.fitnesstracker.user.api.User;
 
 import java.time.LocalDate;
 
@@ -14,9 +15,9 @@ public class healthmetrics {
     private int id;
 
     /// zmienic na klucz obcy
-    // @ManyToOne
+    @ManyToOne
     @JoinColumn(name = "user_id")
-    private int user_id;
+    private User user_id;
 
 
     @Column(name = "date", nullable = false)
