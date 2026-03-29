@@ -1,5 +1,6 @@
 package pl.wsb.fitnesstracker.training.api;
 
+import jakarta.persistence.*;
 import lombok.Getter;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
@@ -7,16 +8,22 @@ import pl.wsb.fitnesstracker.user.api.User;
 import java.util.Date;
 
 @Getter
+@Entity
 public class Training {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     private Date startTime;
 
     private Date endTime;
 
+    @Enumerated(EnumType.STRING)
     private ActivityType activityType;
 
     private double distance;
