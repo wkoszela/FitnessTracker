@@ -5,7 +5,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-@SpringBootTest
+@SpringBootTest(classes = pl.wsb.fitnesstracker.FitnessTracker.class)
 class CapFitnessTrackerApplicationTests {
 
     @Test
