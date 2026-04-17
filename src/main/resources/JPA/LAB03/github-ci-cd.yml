@@ -6,8 +6,10 @@
 #   - lab03-entities   -> Lab03EntitiesTest        (encje z LAB03, STAGE 1)
 #   - lab03-repository -> Lab03RepositoryTest      (zapytania z LAB03, STAGE 2)
 #
-# Kolejne joby uruchamiają się tylko, gdy poprzedni przeszedł — w ten sposób
-# pipeline odwzorowuje postęp w TDD.
+# Stage'e testowe są niezależne (brak `needs:` między nimi), więc niepowodzenie
+# jednego nie przerywa pozostałych — widzisz pełny obraz, które laboratorium
+# już zielenie się, a które jeszcze nie. Job `package` buduje JAR tylko,
+# gdy wszystkie trzy stage'e są zielone.
 name: Java CI with Maven
 
 permissions:
@@ -49,7 +51,6 @@ jobs:
   lab03-entities:
     name: LAB03-1 — entities (Lab03EntitiesTest)
     runs-on: ubuntu-latest
-    needs: lab02
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -76,7 +77,6 @@ jobs:
   lab03-repository:
     name: LAB03-2 — repository (Lab03RepositoryTest)
     runs-on: ubuntu-latest
-    needs: lab03-entities
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
@@ -103,7 +103,7 @@ jobs:
   package:
     name: Package JAR
     runs-on: ubuntu-latest
-    needs: lab03-repository
+    needs: [ lab02, lab03-entities, lab03-repository ]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v5
