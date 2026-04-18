@@ -9,12 +9,15 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import pl.wsb.fitnesstracker.event.Event;
+import pl.wsb.fitnesstracker.event.EventRepository;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +39,8 @@ class InitialDataLoader {
 
     private final JpaRepository<Training, Long> trainingRepository;
 
+    private final EventRepository eventRepository;
+
     @EventListener
     @Transactional
     @SuppressWarnings({"squid:S1854", "squid:S1481", "squid:S1192", "unused"})
@@ -47,6 +52,31 @@ class InitialDataLoader {
         List<User> sampleUserList = generateSampleUsers();
         List<Training> sampleTrainingList = generateTrainingData(sampleUserList);
 
+        Event e1 = new Event();
+        e1.setName("Old Event");
+        e1.setStartDate(LocalDateTime.now().minusDays(1));
+        e1.setLocation("Warsaw");
+
+        Event e2 = new Event();
+        e2.setName("Future Event 1");
+        e2.setStartDate(LocalDateTime.now().plusDays(1));
+        e2.setLocation("Krakow");
+
+        Event e3 = new Event();
+        e3.setName("Future Event 2");
+        e3.setStartDate(LocalDateTime.now().plusDays(3));
+        e3.setLocation("Gdansk");
+
+        eventRepository.save(e1);
+        eventRepository.save(e2);
+        eventRepository.save(e3);
+
+        List<Event> events = eventRepository.findUpcoming(LocalDateTime.now());
+        System.out.println("Nadchodzące eventy: " + events.size());
+
+        for (Event e : events) {
+            System.out.println(e.getName() + " | " + e.getStartDate());
+        }
 
         log.info("Finished loading initial data");
     }
@@ -167,5 +197,4 @@ class InitialDataLoader {
             throw new IllegalStateException("Initial data loader was not autowired correctly " + this);
         }
     }
-
 }
