@@ -1,7 +1,23 @@
 package pl.wsb.fitnesstracker.training.internal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import pl.wsb.fitnesstracker.training.api.Training;
+import pl.wsb.fitnesstracker.user.api.User;
 
-public interface TrainingRepository extends JpaRepository<Training, Long> {
+import java.util.Objects;
+import java.util.Optional;
+
+interface TrainingRepository extends JpaRepository<User, Long> {
+
+    /**
+     * Query searching users by email address. It matches by exact match.
+     *
+     * @param email email of the user to search
+     * @return {@link Optional} containing found user or {@link Optional#empty()} if none matched
+     */
+    default Optional<User> findByEmail(String email) {
+        return findAll().stream()
+                .filter(user -> Objects.equals(user.getEmail(), email))
+                .findFirst();
+    }
+
 }
