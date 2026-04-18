@@ -26,11 +26,14 @@ public class Statistics {
 
     private int totalTrainings;
 
+    @Column(name = "total_distance", nullable = false)
     private double totalDistance;
 
+    @Column(name = "total_calories_burned", nullable = false)
     private int totalCaloriesBurned;
 
-    public Statistics(int totalTrainings, double totalDistance, int totalCaloriesBurned) {
+    public Statistics(User user, int totalTrainings, double totalDistance, int totalCaloriesBurned) {
+        this.user = user;
         this.totalTrainings = totalTrainings;
         this.totalDistance = totalDistance;
         this.totalCaloriesBurned = totalCaloriesBurned;

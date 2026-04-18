@@ -1,11 +1,6 @@
 package pl.wsb.fitnesstracker.training.api;
 
-import jakarta.annotation.Nullable;
-import jakarta.persistence.*;
-import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
 
@@ -24,18 +19,23 @@ public class Training {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name= "user_id", nullable = false, unique=true)
-
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(name = "start_time", nullable = false)
     private Date startTime;
 
+    @Column(name = "end_time", nullable = false)
     private Date endTime;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "activity_type", nullable = false)
     private ActivityType activityType;
 
+    @Column(nullable = false)
     private double distance;
 
+    @Column(name = "average_speed", nullable = false)
     private double averageSpeed;
 
     public Training(

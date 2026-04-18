@@ -13,17 +13,16 @@ Laboratorium 02 - Relacje w JPA - stan na 27.03.2026
    `src/test/java/pl/wsb/fitnesstracker`.
 5. Scommituj zmiany i wyślij je do swojego repozytorium.
 6. Zweryfikuj czy projekt poprawnie się buduje na Github. Test nie powinny poprawnie przechodzić
-7. Do projektu dodaj profilu loadInitialData (application properties). Zweryfikuj czy dane testowe w trakcie startu
-   aplikacji poprawnie się ładują do bazy danych.
-8. Zapoznaj się z poniższym schematem relacyjnym bazy danych. Korzystając z wiedzy przekazanej na wykładzie, literatury
+7. Zapoznaj się z poniższym schematem relacyjnym bazy danych. Korzystając z wiedzy przekazanej na wykładzie, literatury
    oraz internetu, uzupełnij brakujące tabele i relacje w aktualnej definicji encji (zwróć uwagę także na nazwy tabel
    oraz brakujące kolumny).
    Określ nullowalność oraz nazwy kolumn. Ustaw relacje tak, aby przynajmniej raz była wykorzystana relacja
    jednostronna (OneToOne)
-   oraz ManyToOne. **Pracujemy nad 4 Encjami User, Trainings, Statistics, HealthMetrics.**
+   oraz ManyToOne. **Pracujemy nad 4 Encjami User, Trainings, Statistics, HealthMetrics. Zaczynamy od tabeli Training**
 
    ![](db_schema.png)
-
+8. Do projektu dodaj profilu loadInitialData (application properties). Zweryfikuj czy dane testowe w trakcie startu
+   aplikacji poprawnie się ładują do bazy danych.
 9. Wprowadzone zmiany prześlij na swoje repozytorium. Testy powinny poprawnie się wykonać lokalnie oraz platformie
    Github.
 10. Zgłoś prowadzącemu wykonanie zadanie, celem uzyskania oceny.
