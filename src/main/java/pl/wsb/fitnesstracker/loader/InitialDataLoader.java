@@ -9,12 +9,14 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import pl.wsb.fitnesstracker.event.Event;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -166,6 +168,25 @@ class InitialDataLoader {
         if (isNull(userRepository)) {
             throw new IllegalStateException("Initial data loader was not autowired correctly " + this);
         }
+    }
+
+    private List<Event> generateSampleEvents() {
+        List<Event> events = new ArrayList<>();
+        LocalDateTime dt = new LocaDateTime.now();
+        events.add(new Event(0, "bagno", "bagno", ))
+
+        users.add(generateUser("Emma", "Johnson", 28));
+        users.add(generateUser("Ethan", "Taylor", 51));
+        users.add(generateUser("Olivia", "Davis", 76));
+        users.add(generateUser("Daniel", "Thomas", 34));
+        users.add(generateUser("Sophia", "Baker", 49));
+        users.add(generateUser("Liam", "Jones", 23));
+        users.add(generateUser("Ava", "Williams", 21));
+        users.add(generateUser("Noah", "Miller", 39));
+        users.add(generateUser("Grace", "Anderson", 33));
+        users.add(generateUser("Oliver", "Swift", 29));
+
+        return users;
     }
 
 }
