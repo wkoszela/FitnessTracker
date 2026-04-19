@@ -20,17 +20,17 @@ public class Statistics {
     @Nullable
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "total_trainings", nullable = false)
+    @Column(name = "totalTrainings", nullable = false)
     private int totalTrainings;
 
-    @Column(name = "total_distance", nullable = false)
+    @Column(name = "totalDistance", nullable = false)
     private double totalDistance;
 
-    @Column(name = "total_calories_burned", nullable = false)
+    @Column(name = "totalCaloriesBurned", nullable = false)
     private int totalCaloriesBurned;
 
     public Statistics(User user, int totalTrainings, double totalDistance, int totalCaloriesBurned) {

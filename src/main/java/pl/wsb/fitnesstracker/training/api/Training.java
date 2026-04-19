@@ -12,25 +12,27 @@ import pl.wsb.fitnesstracker.user.api.User;
 import java.util.Date;
 
 @Entity
-@Table(name = "trainings")
-@Getter
+@Table(name = "Trainings")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@Getter
+@ToString(exclude = "user")
 public class Training {
+
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Nullable
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "start_time", nullable = false)
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date startTime;
 
-    @Column(name = "end_time", nullable = false)
+    @Column(nullable = false)
+    @Temporal(TemporalType.TIMESTAMP)
     private Date endTime;
 
     @Enumerated(EnumType.STRING)
@@ -40,7 +42,7 @@ public class Training {
     @Column(nullable = false)
     private double distance;
 
-    @Column(name = "average_speed", nullable = false)
+    @Column(nullable = false)
     private double averageSpeed;
 
     public Training(
