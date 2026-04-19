@@ -16,59 +16,68 @@ import java.util.Set;
 import static org.assertj.core.api.Assertions.assertThat;
 
 /**
- * This test class verifies the existence of specific tables and their columns
- * in the database schema using JPA and an in-memory database for testing.
- * Class should be under test/java/pl/wsb/fitnesstracker sources
+ * LAB03 — STAGE 1: encje.
+ *
+ * Ten plik sprawdza tylko istnienie i strukturę tabel dla nowych encji LAB03
+ * (Event, UserEvent, WorkoutSession). NIE używa żadnego repozytorium — zieleni
+ * się wyłącznie na podstawie poprawnych encji JPA.
+ *
+ * Class should be under src/test/java/pl/wsb/fitnesstracker.
+ *
+ * Wymagane nazwy tabel (np. przez @Table(name = "...")):
+ *   - event
+ *   - user_event (z kolumnami user_id, event_id)
+ *   - workout_session (z kolumną training_id)
  */
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
-class DatabaseSchemaTest {
+class Lab03EntitiesTest {
 
     @Autowired
     private DataSource dataSource;
 
     @Test
-    void shouldHaveUsersTable() throws Exception {
+    void shouldHaveEventTable() throws Exception {
         try (Connection conn = dataSource.getConnection()) {
-            assertThat(tableExists(conn, "users")).isTrue();
+            assertThat(tableExists(conn, "event")).isTrue();
         }
     }
 
     @Test
-    void shouldHaveHealthMetricsTable() throws Exception {
+    void shouldHaveUserEventTable() throws Exception {
         try (Connection conn = dataSource.getConnection()) {
-            assertThat(tableExists(conn, "health_metrics")).isTrue();
+            assertThat(tableExists(conn, "user_event")).isTrue();
         }
     }
 
     @Test
-    void shouldHaveStatisticsTable() throws Exception {
+    void shouldHaveWorkoutSessionTable() throws Exception {
         try (Connection conn = dataSource.getConnection()) {
-            assertThat(tableExists(conn, "statistics")).isTrue();
+            assertThat(tableExists(conn, "workout_session")).isTrue();
         }
     }
 
     @Test
-    void usersTableHasExpectedColumns() throws Exception {
+    void eventTableHasPrimaryKey() throws Exception {
         try (Connection conn = dataSource.getConnection()) {
-            Set<String> cols = tableColumns(conn, "users");
-            assertThat(cols).contains("id", "email");
+            Set<String> cols = tableColumns(conn, "event");
+            assertThat(cols).contains("id");
         }
     }
 
     @Test
-    void healthMetricsTableHasExpectedColumns() throws Exception {
+    void userEventTableHasForeignKeyColumns() throws Exception {
         try (Connection conn = dataSource.getConnection()) {
-            Set<String> cols = tableColumns(conn, "health_metrics");
-            assertThat(cols).contains("id", "user_id");
+            Set<String> cols = tableColumns(conn, "user_event");
+            assertThat(cols).contains("id", "user_id", "event_id");
         }
     }
 
     @Test
-    void statisticsTableHasExpectedColumns() throws Exception {
+    void workoutSessionTableHasTrainingForeignKey() throws Exception {
         try (Connection conn = dataSource.getConnection()) {
-            Set<String> cols = tableColumns(conn, "statistics");
-            assertThat(cols).contains("id", "user_id");
+            Set<String> cols = tableColumns(conn, "workout_session");
+            assertThat(cols).contains("id", "training_id");
         }
     }
 
