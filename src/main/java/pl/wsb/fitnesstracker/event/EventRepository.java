@@ -7,6 +7,9 @@ import java.util.List;
 
 
 public interface EventRepository extends JpaRepository<Event, Long> {
-    @Query("SELECT e FROM Event e WHERE e.startTime > :now ORDER BY e.startTime")
-    List<Event> findUpcoming(@Param("now") LocalDate now);
+    //@Query("SELECT e FROM Event e WHERE e.startTime > :now ORDER BY e.startTime")
+    //List<Event> findUpcoming(@Param("now") LocalDate now);
+
+    @Query(value = "SELECT COUNT(*) FROM user_event WHERE event_id = :eventId", nativeQuery = true)
+    long countParticipants(@Param("eventId") Long eventId);
 }
