@@ -1,7 +1,11 @@
 package pl.wsb.fitnesstracker.training.api;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
 
@@ -10,30 +14,30 @@ import java.util.Date;
 @Entity
 @Table(name = "trainings")
 @Getter
-@Setter // Dodane, aby umożliwić modyfikację pól
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
 public class Training {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Nullable
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false) // Relacja ManyToOne zgodnie z wymaganiem
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "training_start_time", nullable = false) // Zmieniono nazwę kolumny pod schemat
+    @Column(name = "start_time", nullable = false)
     private Date startTime;
 
-    @Column(name = "training_end_time", nullable = false) // Zmieniono nazwę kolumny pod schemat
+    @Column(name = "end_time", nullable = false)
     private Date endTime;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "activity_type", nullable = false)
     private ActivityType activityType;
 
-    @Column(name = "distance", nullable = false)
+    @Column(nullable = false)
     private double distance;
 
     @Column(name = "average_speed", nullable = false)

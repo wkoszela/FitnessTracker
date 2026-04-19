@@ -86,7 +86,7 @@ class Lab03RepositoryTest {
         em.persist(new UserEvent(u2, event));
         em.flush();
 
-        long count = EventRepository.countParticipants(event.getId());
+        long count = userEventRepository.countParticipants(event.getId());
 
         assertThat(count).isEqualTo(2L);
     }
