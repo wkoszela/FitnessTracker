@@ -15,7 +15,7 @@ import java.util.Date;
 @Table(name = "trainings")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@ToString(exclude = "user")
 public class Training {
 
     @Id
