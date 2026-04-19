@@ -12,7 +12,7 @@ import pl.wsb.fitnesstracker.user.api.User;
 @Table(name = "statistics")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString
+@ToString(exclude = "user")
 public class Statistics {
 
     @Id
