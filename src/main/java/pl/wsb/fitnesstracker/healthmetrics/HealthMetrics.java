@@ -1,47 +1,48 @@
 package pl.wsb.fitnesstracker.healthmetrics;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 import pl.wsb.fitnesstracker.user.api.User;
+
 import java.time.LocalDate;
 
 @Entity
-@Table(name = "Health_Metrics")
+@Table(name = "health_metrics")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@ToString
 public class HealthMetrics {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Nullable
     private Long id;
 
-    // Relacja ManyToOne do User (wiele rekordów HealthMetrics przypisanych do jednego użytkownika)
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id", nullable = false) // Kolumna, która przechowuje klucz obcy
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @Column(nullable = false)
     private LocalDate date;
-    private Double weight;
-    private Double height;
-    private Integer heartRate;
 
-    // Konstruktor bezargumentowy
-    public HealthMetrics() {
+    @Column(nullable = false)
+    private double weight;
+
+    @Column(nullable = false)
+    private double height;
+
+    @Column(name = "heart_rate", nullable = false)
+    private int heartRate;
+
+    public HealthMetrics(User user, LocalDate date, double weight, double height, int heartRate) {
+        this.user = user;
+        this.date = date;
+        this.weight = weight;
+        this.height = height;
+        this.heartRate = heartRate;
     }
-
-    // Gettery i settery
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
-
-    public User getUser() { return user; }
-    public void setUser(User user) { this.user = user; }
-
-    public LocalDate getDate() { return date; }
-    public void setDate(LocalDate date) { this.date = date; }
-
-    public Double getWeight() { return weight; }
-    public void setWeight(Double weight) { this.weight = weight; }
-
-    public Double getHeight() { return height; }
-    public void setHeight(Double height) { this.height = height; }
-
-    public Integer getHeartRate() { return heartRate; }
-    public void setHeartRate(Integer heartRate) { this.heartRate = heartRate; }
 }
