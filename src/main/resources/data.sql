@@ -4,19 +4,19 @@
 -- =============================================
 
 -- 1. Users (no dependencies)
-INSERT INTO users (first_name, last_name, birthday, email)
+INSERT INTO users (first_name, last_name, birthdate, email)
 VALUES ('Jan', 'Kowalski', '1995-06-15', 'jan.kowalski@example.com');
 
-INSERT INTO users (first_name, last_name, birthday, email)
+INSERT INTO users (first_name, last_name, birthdate, email)
 VALUES ('Anna', 'Nowak', '1988-03-22', 'anna.nowak@example.com');
 
-INSERT INTO users (first_name, last_name, birthday, email)
+INSERT INTO users (first_name, last_name, birthdate, email)
 VALUES ('Piotr', 'Wisniewski', '2000-11-08', 'piotr.wisniewski@example.com');
 
-INSERT INTO users (first_name, last_name, birthday, email)
+INSERT INTO users (first_name, last_name, birthdate, email)
 VALUES ('Maria', 'Zielinska', '1992-09-30', 'maria.zielinska@example.com');
 
-INSERT INTO users (first_name, last_name, birthday, email)
+INSERT INTO users (first_name, last_name, birthdate, email)
 VALUES ('Tomasz', 'Lewandowski', '1985-01-17', 'tomasz.lewandowski@example.com');
 
 -- 2. Trainings (depends on users)
