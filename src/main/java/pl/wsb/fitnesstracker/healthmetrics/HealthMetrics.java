@@ -1,4 +1,4 @@
-package pl.wsb.fitnesstracker.healthmetrics.api;
+package pl.wsb.fitnesstracker.healthmetrics;
 
 import jakarta.persistence.*;
 import lombok.Getter;

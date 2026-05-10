@@ -38,4 +38,16 @@ public class User {
         this.birthdate = birthdate;
         this.email = email;
     }
+
+    /**
+     * Updates all mutable fields from the given source user.
+     *
+     * @param source user carrying the new field values
+     */
+    public void update(User source) {
+        this.firstName = source.firstName;
+        this.lastName = source.lastName;
+        this.birthdate = source.birthdate;
+        this.email = source.email;
+    }
 }
