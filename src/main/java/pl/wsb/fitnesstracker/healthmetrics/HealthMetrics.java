@@ -23,26 +23,25 @@ public class HealthMetrics {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(nullable = false)
-    private LocalDate date;
-
-    @Column(nullable = false)
-    private double weight;
-
-    @Column(nullable = false)
-    private double height;
-
-    @Column(name = "heart_rate", nullable = false)
+    private int date;
+    private int weight;
+    private int height;
     private int heartRate;
 
-    public HealthMetrics(User user, LocalDate date, double weight, double height, int heartRate) {
+
+    public HealthMetrics(
+            final User user,
+            final int date,
+            final int weight,
+            final int height,
+            final int heartRate) {
         this.user = user;
         this.date = date;
         this.weight = weight;
         this.height = height;
         this.heartRate = heartRate;
     }
+
 }
