@@ -13,12 +13,17 @@ import pl.wsb.fitnesstracker.user.api.UserDto;
  */
 @RestController
 @RequestMapping("/v1/users")
-@RequiredArgsConstructor
 class UserController {
 
     private final UserServiceImpl userService;
 
     private final UserMapper userMapper;
+
+
+    public UserController(UserServiceImpl userService, UserMapper userMapper) {
+        this.userService = userService;
+        this.userMapper = userMapper;
+    }
 
     @PostMapping
     public UserDto addUser(@RequestBody UserDto userDto) throws InterruptedException {

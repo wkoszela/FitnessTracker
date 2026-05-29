@@ -43,5 +43,13 @@ public class User {
         this.birthdate = birthdate;
         this.email = email;
     }
+    public Long getId() {
+        return id; // upewnij się, że pole nazywa się 'id'
+    }
+
+    public String getEmail() {
+        return email; // upewnij się, że pole nazywa się 'email'
+    }
 
 }
+
