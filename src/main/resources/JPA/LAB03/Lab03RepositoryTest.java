@@ -17,26 +17,6 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-/**
- * LAB03 — STAGE 2: repozytoria i zapytania.
- *
- * Ten plik sprawdza, że napisałeś @Query z sekcji 3 i 4 LAB03. Aby ten plik
- * w ogóle się skompilował, musisz najpierw stworzyć (mogą być puste szkielety):
- *   - pl.wsb.fitnesstracker.event.Event
- *   - pl.wsb.fitnesstracker.event.UserEvent
- *   - pl.wsb.fitnesstracker.event.EventRepository (extends JpaRepository<Event, Long>)
- *   - pl.wsb.fitnesstracker.event.UserEventRepository (extends JpaRepository<UserEvent, Long>)
- *
- * Wymagane konstruktory:
- *   - new Event(String name, LocalDate startDate, String location)
- *   - new UserEvent(User user, Event event, LocalDate registrationDate)
- *
- * Wymagane metody w repozytoriach:
- *   - EventRepository:      List<Event> findUpcoming(LocalDate now)         (JPQL)
- *   - UserEventRepository:  long        countParticipants(Long eventId)     (nativeQuery = true)
- *
- * Class should be under src/test/java/pl/wsb/fitnesstracker.
- */
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.ANY)
 class Lab03RepositoryTest {
