@@ -30,4 +30,8 @@ public interface UserProvider {
      */
     List<User> findAllUsers();
 
+    List<User> searchByEmail(String email);
+
+    List<User> findUsersOlderThan(int age);
+
 }

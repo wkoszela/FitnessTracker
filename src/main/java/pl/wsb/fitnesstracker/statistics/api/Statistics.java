@@ -17,24 +17,22 @@ public class Statistics {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Nullable
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "user_id", nullable = false, unique = true)
-    private User user;
-
-    @Column(name = "total_trainings", nullable = false)
+    @Column(name="total_trainings",nullable = false, unique = false)
     private int totalTrainings;
 
-    @Column(name = "total_distance", nullable = false)
+    @Column(name="total_distance",nullable = false, unique = false)
     private double totalDistance;
 
-    @Column(name = "total_calories_burned", nullable = false)
+    @Column(name="total_calories_burned",nullable = false, unique = false)
     private int totalCaloriesBurned;
 
-    public Statistics(User user, int totalTrainings, double totalDistance, int totalCaloriesBurned) {
-        this.user = user;
+    @OneToOne
+    @JoinColumn(name="user_id")
+    private User user;
+
+    public Statistics(int totalTrainings, double totalDistance, int totalCaloriesBurned) {
         this.totalTrainings = totalTrainings;
         this.totalDistance = totalDistance;
         this.totalCaloriesBurned = totalCaloriesBurned;

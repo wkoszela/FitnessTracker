@@ -9,12 +9,16 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import pl.wsb.fitnesstracker.event.Event;
+import pl.wsb.fitnesstracker.event.EventRepository;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +39,8 @@ class InitialDataLoader {
     private final JpaRepository<User, Long> userRepository;
 
     private final JpaRepository<Training, Long> trainingRepository;
+
+    private final EventRepository eventRepository;
 
     @EventListener
     @Transactional
@@ -156,7 +162,7 @@ class InitialDataLoader {
 
             trainingRepository.saveAll(trainingData);
         } catch (ParseException e) {
-            e.printStackTrace();
+            log.error("Error parsing date format", e);
         }
 
         return trainingData;
@@ -168,4 +174,57 @@ class InitialDataLoader {
         }
     }
 
+    private List<Event> generateSampleEvents() {
+        List<Event> events = new ArrayList<>();
+
+        Event event1 = new Event(null,
+                "Marathon 2024",
+                "Annual city marathon",
+                LocalDate.of(2024, 3, 15),
+                LocalDate.of(2024, 3, 16),
+                "Poland",
+                "Warsaw");
+
+        Event event2 = new Event(null,
+                "Cycling Championship",
+                "Regional cycling competition",
+                LocalDate.of(2024, 4, 20),
+                LocalDate.of(2024, 4, 22),
+                "Poland",
+                "Krakow");
+
+        Event event3 = new Event(null,
+                "Fitness Festival",
+                "Health and fitness expo",
+                LocalDate.of(2024, 5, 10),
+                LocalDate.of(2024, 5, 12),
+                "Poland",
+                "Gdansk");
+
+        Event event4 = new Event(null,
+                "Half Marathon",
+                "City half marathon race",
+                LocalDate.of(2024, 6, 8),
+                LocalDate.of(2024, 6, 8),
+                "Poland",
+                "Wroclaw");
+
+        Event event5 = new Event(null,
+                "Swimming Gala",
+                "Professional swimming competition",
+                LocalDate.of(2024, 7, 12),
+                LocalDate.of(2024, 7, 14),
+                "Poland",
+                "Poznan");
+
+        events.add(event1);
+        events.add(event2);
+        events.add(event3);
+        events.add(event4);
+        events.add(event5);
+
+        eventRepository.saveAll(events);
+
+        return events;
+    }
 }

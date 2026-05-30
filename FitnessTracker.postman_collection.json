@@ -1,0 +1,375 @@
+{
+  "info": {
+    "name": "FitnessTracker API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "baseUrl",
+      "value": "http://localhost:8080",
+      "type": "string"
+    },
+    {
+      "key": "userId",
+      "value": "1",
+      "type": "string"
+    }
+  ],
+  "item": [
+    {
+      "name": "Get all users",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('Response is an array', () => {",
+              "    const body = pm.response.json();",
+              "    pm.expect(body).to.be.an('array');",
+              "});",
+              "pm.test('Each user has required fields', () => {",
+              "    const body = pm.response.json();",
+              "    body.forEach(user => {",
+              "        pm.expect(user).to.have.all.keys('id', 'firstName', 'lastName');",
+              "    });",
+              "});",
+              "// Save first user id for subsequent requests",
+              "const body = pm.response.json();",
+              "if (body.length > 0) {",
+              "    pm.collectionVariables.set('userId', body[0].id);",
+              "}"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get user by ID",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users/{{userId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users", "{{userId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('Response has required fields', () => {",
+              "    const user = pm.response.json();",
+              "    pm.expect(user).to.have.all.keys('id', 'firstName', 'lastName', 'birthdate', 'email');",
+              "    pm.expect(user.id).to.eql(Number(pm.collectionVariables.get('userId')));",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get user by ID - not found",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users/999999",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users", "999999"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 404', () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search users by email",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users/search?email=example",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users", "search"],
+          "query": [
+            {
+              "key": "email",
+              "value": "example"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('Response is an array', () => {",
+              "    pm.expect(pm.response.json()).to.be.an('array');",
+              "});",
+              "pm.test('Each result has only id and email', () => {",
+              "    pm.response.json().forEach(user => {",
+              "        pm.expect(user).to.have.all.keys('id', 'email');",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Search users by email - no results",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users/search?email=thisdoesnotexist@nowhere.com",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users", "search"],
+          "query": [
+            {
+              "key": "email",
+              "value": "thisdoesnotexist@nowhere.com"
+            }
+          ]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('Response is an empty array', () => {",
+              "    pm.expect(pm.response.json()).to.eql([]);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Get users older than age",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users/older-than/20",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users", "older-than", "20"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('Response is an array', () => {",
+              "    pm.expect(pm.response.json()).to.be.an('array');",
+              "});",
+              "pm.test('All users are older than 20', () => {",
+              "    const cutoff = new Date();",
+              "    cutoff.setFullYear(cutoff.getFullYear() - 20);",
+              "    pm.response.json().forEach(user => {",
+              "        pm.expect(new Date(user.birthdate)).to.be.below(cutoff);",
+              "    });",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Create user",
+      "request": {
+        "method": "POST",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users"]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Smith\",\n  \"birthdate\": \"1995-03-22\",\n  \"email\": \"jane.smith@example.com\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 201', () => pm.response.to.have.status(201));",
+              "pm.test('Created user has an id', () => {",
+              "    const user = pm.response.json();",
+              "    pm.expect(user.id).to.be.a('number');",
+              "    pm.collectionVariables.set('userId', user.id);",
+              "});",
+              "pm.test('Created user matches request body', () => {",
+              "    const user = pm.response.json();",
+              "    pm.expect(user.firstName).to.eql('Jane');",
+              "    pm.expect(user.lastName).to.eql('Smith');",
+              "    pm.expect(user.birthdate).to.eql('1995-03-22');",
+              "    pm.expect(user.email).to.eql('jane.smith@example.com');",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update user",
+      "request": {
+        "method": "PUT",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users/{{userId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users", "{{userId}}"]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Jane\",\n  \"lastName\": \"Smith\",\n  \"birthdate\": \"1990-07-15\",\n  \"email\": \"jane.smith@example.com\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 200', () => pm.response.to.have.status(200));",
+              "pm.test('Birthdate was updated', () => {",
+              "    const user = pm.response.json();",
+              "    pm.expect(user.birthdate).to.eql('1990-07-15');",
+              "});",
+              "pm.test('ID is unchanged', () => {",
+              "    const user = pm.response.json();",
+              "    pm.expect(user.id).to.eql(Number(pm.collectionVariables.get('userId')));",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Update user - not found",
+      "request": {
+        "method": "PUT",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users/999999",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users", "999999"]
+        },
+        "header": [
+          {
+            "key": "Content-Type",
+            "value": "application/json"
+          }
+        ],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n  \"firstName\": \"Ghost\",\n  \"lastName\": \"User\",\n  \"birthdate\": \"2000-01-01\",\n  \"email\": \"ghost@example.com\"\n}"
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 404', () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete user",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users/{{userId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users", "{{userId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 204', () => pm.response.to.have.status(204));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete user - confirm gone",
+      "request": {
+        "method": "GET",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users/{{userId}}",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users", "{{userId}}"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 404 after deletion', () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Delete user - not found",
+      "request": {
+        "method": "DELETE",
+        "url": {
+          "raw": "{{baseUrl}}/v1/users/999999",
+          "host": ["{{baseUrl}}"],
+          "path": ["v1", "users", "999999"]
+        }
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "exec": [
+              "pm.test('Status is 404', () => pm.response.to.have.status(404));"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
