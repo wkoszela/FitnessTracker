@@ -9,12 +9,16 @@ import org.springframework.context.event.EventListener;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import pl.wsb.fitnesstracker.event.Event;
+import pl.wsb.fitnesstracker.event.EventRepository;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
+import pl.wsb.fitnesstracker.user.internal.UserRepository;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +40,10 @@ class InitialDataLoader {
 
     private final JpaRepository<Training, Long> trainingRepository;
 
+    private final EventRepository eventRepository;
+
+    private final UserRepository userRepository2;
+
     @EventListener
     @Transactional
     @SuppressWarnings({"squid:S1854", "squid:S1481", "squid:S1192", "unused"})
@@ -46,7 +54,10 @@ class InitialDataLoader {
 
         List<User> sampleUserList = generateSampleUsers();
         List<Training> sampleTrainingList = generateTrainingData(sampleUserList);
+        List<Event> events = eventRepository.findUpcoming(LocalDate.now());
+        List<User> usersWithMatchingEmail = userRepository2.findUsersWithEmail("@domain.com");
 
+        System.out.println("Nadchodzace eventy: " + events.size());
 
         log.info("Finished loading initial data");
     }
@@ -167,5 +178,7 @@ class InitialDataLoader {
             throw new IllegalStateException("Initial data loader was not autowired correctly " + this);
         }
     }
+
+
 
 }

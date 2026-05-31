@@ -30,7 +30,7 @@ public class User {
     @Column(name = "birthdate", nullable = false)
     private LocalDate birthdate;
 
-    @Column(nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true)
     private String email;
 
     public User(

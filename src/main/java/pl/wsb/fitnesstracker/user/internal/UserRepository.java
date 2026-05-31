@@ -1,12 +1,15 @@
 package pl.wsb.fitnesstracker.user.internal;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import pl.wsb.fitnesstracker.user.api.User;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-interface UserRepository extends JpaRepository<User, Long> {
+public interface UserRepository extends JpaRepository<User, Long> {
 
     /**
      * Query searching users by email address. It matches by exact match.
@@ -19,5 +22,8 @@ interface UserRepository extends JpaRepository<User, Long> {
                 .filter(user -> Objects.equals(user.getEmail(), email))
                 .findFirst();
     }
+
+    @Query(value = "SELECT first_Name, last_Name FROM users WHERE email = :email", nativeQuery = true)
+    List<User> findUsersWithEmail(@Param("email") String email);
 
 }
